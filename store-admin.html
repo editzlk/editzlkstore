@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><head><title>Admin Dashboard | KB Label</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest?v=20260719">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="KB Label premium streetwear clothing store. Shop exclusive Deathline oversized tees in Sri Lanka.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="store-style.css?v=34">
+<link rel="stylesheet" href="cinematic.css?v=40">
+<link rel="stylesheet" href="kb-admin-unified.css?v=10">
+</head><body class="admin-body auth-checking">
+<div class="admin-shell">
+<aside class="admin-sidebar"><a class="brand admin-brand" href="store.html"><img decoding="async" src="store-logo.webp"><span>KB LABEL</span></a><nav><button data-admin-tab="dashboard" class="active"><i class="fa-solid fa-chart-line"></i>Dashboard</button><button data-admin-tab="products"><i class="fa-solid fa-shirt"></i>Products</button><button data-admin-tab="orders"><i class="fa-solid fa-box"></i>Orders</button><a href="store.html"><i class="fa-solid fa-arrow-left"></i>Back to Store</a></nav></aside>
+<main class="admin-main">
+<header><div><small>ADMIN PANEL</small><h1>KB Label Dashboard</h1></div><div class="admin-account-actions"><div class="admin-user-chip"><i class="fa-solid fa-user-shield"></i><span id="adminUserEmail">Checking account...</span></div><button class="btn" id="adminLogout" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button><button class="btn admin-danger" id="clearAllProducts" type="button"><i class="fa-solid fa-trash"></i> Clear All Products</button></div></header>
+<section class="admin-tab active" id="admin-dashboard"><div class="stats" id="adminStats"></div><div class="admin-card"><h2>Recent Orders</h2><div id="recentOrders"></div></div></section>
+<section class="admin-tab" id="admin-products"><div class="admin-card"><div class="card-head"><div><h2>Product Management</h2><p class="admin-help">Every item shown in the shop is added, edited and removed from this page. No coding needed.</p></div><div class="product-tools"><button class="btn" id="exportProducts" type="button"><i class="fa-solid fa-download"></i> Backup</button><button class="btn" id="importProducts" type="button"><i class="fa-solid fa-upload"></i> Restore</button><input type="file" id="importProductsFile" accept="application/json" hidden><button class="btn btn-dark" id="addProductBtn" type="button"><i class="fa-solid fa-plus"></i> Add Product</button></div></div><div id="adminProducts"></div></div></section>
+<section class="admin-tab" id="admin-orders"><div class="admin-card"><h2>Order Management</h2><div id="adminOrders"></div></div></section>
+</main></div>
+<div class="modal" id="productModal">
+  <form id="productForm" class="modal-card product-editor">
+    <button type="button" class="modal-close" aria-label="Close">&times;</button>
+    <div class="editor-title">
+      <div><small>PRODUCT EDITOR</small><h2 id="productModalTitle">Add New Product</h2></div>
+      <span class="editor-hint">No coding needed</span>
+    </div>
+    <input type="hidden" name="id">
+    <input type="hidden" name="existingImage">
+
+    <div class="editor-grid">
+      <div class="editor-fields">
+        <label>Product Name<input name="name" placeholder="e.g. Deathline Angel Oversized Tee" required></label>
+        <div class="form-row">
+          <label>Price (Rs.)<input name="price" type="number" min="0" step="10" placeholder="3490" required></label>
+          <label>Product Type<select name="category" required><option value="t-shirts">T-Shirt</option><option value="hoodies">Hoodie</option></select></label>
+        </div>
+        <div class="form-row">
+          <label>Badge<select name="badge"><option value="New">New</option><option value="Trending">Trending</option><option value="Best Seller">Best Seller</option><option value="Limited">Limited</option><option value="">No Badge</option></select></label>
+          <label>Stock Status<select name="stockStatus"><option value="in-stock">In Stock</option><option value="out-of-stock">Out of Stock</option></select></label><label>Stock Quantity<input name="stockQty" type="number" min="0" step="1" value="0" required></label>
+        </div>
+
+        <section class="discount-editor-card">
+          <label class="discount-master-toggle">
+            <input type="checkbox" name="discountEnabled">
+            <span class="discount-switch"><i></i></span>
+            <span><strong>Add Discount</strong><small>Optional — turn on only when this product is on sale.</small></span>
+            <i class="fa-solid fa-tags"></i>
+          </label>
+          <div class="discount-fields" id="discountFields">
+            <label>Discount Price (Rs.)<input name="discountPrice" type="number" min="0" step="10" placeholder="2990"></label>
+            <p><i class="fa-solid fa-circle-info"></i> The regular price stays saved and customers see both prices with the discount percentage.</p>
+          </div>
+        </section>
+
+        <fieldset class="option-fieldset"><legend>Available Sizes</legend><div class="option-checks" id="sizeChecks">
+          <label><input type="checkbox" name="sizeOption" value="S" checked><span>S</span></label>
+          <label><input type="checkbox" name="sizeOption" value="M" checked><span>M</span></label>
+          <label><input type="checkbox" name="sizeOption" value="L" checked><span>L</span></label>
+          <label><input type="checkbox" name="sizeOption" value="XL" checked><span>XL</span></label>
+          <label><input type="checkbox" name="sizeOption" value="XXL" checked><span>XXL</span></label>
+        </div></fieldset>
+
+        <fieldset class="option-fieldset"><legend>Available Colors</legend><div class="option-checks color-checks" id="colorChecks">
+          <label><input type="checkbox" name="colorOption" value="Black" checked><span><i class="color-dot black"></i>Black</span></label>
+          <label><input type="checkbox" name="colorOption" value="White" checked><span><i class="color-dot white"></i>White</span></label>
+        </div></fieldset>
+
+        <label>Description<textarea name="description" rows="4" placeholder="Product material, fit and design details..."></textarea></label>
+      </div>
+
+      <div class="image-uploader">
+        <label class="upload-drop" for="productImageFile">
+          <img decoding="async" id="productImagePreview" alt="Product preview">
+          <div id="uploadPlaceholder"><i class="fa-solid fa-cloud-arrow-up"></i><strong>Choose Product Image</strong><span>PNG, JPG or WEBP</span></div>
+        </label>
+        <input id="productImageFile" name="imageFile" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        <button type="button" class="btn full" id="chooseProductImage"><i class="fa-regular fa-image"></i> Select Image</button>
+        <small class="upload-note">Image uploads to Firebase Storage and appears for every customer.</small>
+      </div>
+    </div>
+
+    <div class="editor-actions">
+      <button type="button" class="btn" id="cancelProduct">Cancel</button>
+      <button class="btn btn-dark" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Product</button>
+    </div>
+  </form>
+</div>
+<script type="module" src="store-firebase.js?v=13"></script>
+<script type="module" src="admin-auth.js?v=35"></script>
+<script src="app.js?v=51"></script><script src="unified.js?v=9"></script>
+</body></html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070707" />
+  <title>KB Label POS | Billing, Barcode & Inventory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<!-- EDITZ LK browser, GitHub Pages and mobile icons -->
+    <link rel="icon" href="favicon.ico">
+
+  <link rel="stylesheet" href="kb-pos.css?v=6" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <div id="toast" class="toast"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-wrap">
+      <div class="brand-mark brand-logo"><img src="store-logo.webp" alt="KB Label logo"></div>
+      <div>
+        <h1>KB LABEL</h1>
+        <p>Retail Management</p>
+      </div>
+    </div>
+
+    <nav class="nav-list">
+      <button class="nav-item active" data-view="dashboard"><span>◫</span>Dashboard</button>
+      <button class="nav-item" data-view="pos"><span>▣</span>New Sale</button>
+      <button class="nav-item" data-view="products"><span>◈</span>Products</button>
+      <button class="nav-item" data-view="barcodes"><span>▥</span>Barcodes & Labels</button>
+      <button class="nav-item" data-view="sales"><span>⌁</span>Sales</button>
+      <button class="nav-item" data-view="reports"><span>↗</span>Reports</button>
+      <button class="nav-item" data-view="settings"><span>⚙</span>Settings</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a class="back-admin-link" href="admin.html">← Back to Admin Center</a>
+      <div class="status-pill"><span class="status-dot"></span>Local database active</div>
+      <small>KB Label POS v6.0</small>
+    </div>
+  </aside>
+
+  <main class="main-shell">
+    <header class="topbar">
+      <div>
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+        <p class="eyebrow" id="pageEyebrow">OVERVIEW</p>
+        <h2 id="pageTitle">Dashboard</h2>
+      </div>
+      <div class="top-actions">
+        <div class="live-clock" id="liveClock"></div>
+        <button class="icon-btn" id="quickBackup" title="Download backup">⇩</button><button class="icon-btn" id="posLogout" title="Secure logout">↪</button>
+        <button class="primary-btn" data-open-pos>+ New Sale</button>
+      </div>
+    </header>
+
+    <section class="view active" id="dashboardView">
+      <div class="hero-card reveal">
+        <div>
+          <p class="eyebrow">KB LABEL CLOTHING</p>
+          <h3>Sell faster. Track every piece.</h3>
+          <p>Premium point-of-sale, billing and inventory control built for your clothing store.</p>
+          <div class="hero-actions">
+            <button class="primary-btn" data-open-pos>Start Billing</button>
+            <button class="ghost-btn" data-view-jump="products">Add Products</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="orb"></div>
+          <div class="mini-card card-a"><span>Today's sales</span><strong id="heroSales">Rs. 0</strong></div>
+          <div class="mini-card card-b"><span>Low stock</span><strong id="heroLowStock">0 items</strong></div>
+        </div>
+      </div>
+
+      <div class="stats-grid reveal-delay">
+        <article class="stat-card"><span>Today's Revenue</span><strong id="statTodayRevenue">Rs. 0</strong><small id="statTodayOrders">0 orders</small></article>
+        <article class="stat-card"><span>Total Revenue</span><strong id="statTotalRevenue">Rs. 0</strong><small>All completed sales</small></article>
+        <article class="stat-card"><span>Total Products</span><strong id="statProducts">0</strong><small id="statUnits">0 units in stock</small></article>
+        <article class="stat-card warning"><span>Low Stock</span><strong id="statLowStock">0</strong><small>Needs attention</small></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel reveal-delay-2">
+          <div class="panel-head"><div><p class="eyebrow">SALES FLOW</p><h3>Last 7 Days</h3></div></div>
+          <div class="bar-chart" id="salesChart"></div>
+        </article>
+        <article class="panel reveal-delay-2">
+          <div class="panel-head"><div><p class="eyebrow">ACTIVITY</p><h3>Recent Sales</h3></div><button class="text-btn" data-view-jump="sales">View all</button></div>
+          <div class="compact-list" id="recentSalesList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="posView">
+      <div class="pos-layout">
+        <div class="panel product-browser">
+          <div class="panel-head stacked-mobile">
+            <div><p class="eyebrow">FAST CHECKOUT</p><h3>Scan or Select Products</h3></div>
+            <div class="pos-tools"><div class="search-wrap"><input id="posSearch" placeholder="Search name, SKU, barcode..." /><span>⌕</span></div><div class="barcode-entry"><input id="barcodeInput" inputmode="numeric" autocomplete="off" placeholder="Scan barcode or type code + Enter" /><button class="ghost-btn" id="cameraScanBtn" type="button">Start Camera</button></div></div>
+          </div>
+          <div class="fast-scan-bar">
+            <div class="scan-ready"><span class="scan-pulse"></span><div><strong>Scanner Ready</strong><small>USB/Bluetooth scanner: scan anytime</small></div></div>
+            <label class="continuous-scan"><input id="continuousCamera" type="checkbox"> Keep camera scanner open</label>
+          </div>
+          <div class="quick-filters"><button class="chip active" data-quick="all">All</button><button class="chip" data-quick="low">Low Stock</button><button class="chip" data-quick="recent">Recently Added</button></div>
+          <div class="category-chips" id="categoryChips"></div>
+          <div class="product-grid" id="posProductGrid"></div>
+        </div>
+
+        <aside class="panel cart-panel">
+          <div class="panel-head"><div><p class="eyebrow">CURRENT BILL</p><h3>Cart</h3></div><button class="text-btn danger-text" id="clearCart">Clear</button></div>
+          <div class="cart-items" id="cartItems"></div>
+          <div class="customer-grid">
+            <input id="customerName" placeholder="Customer name (optional)" />
+            <input id="customerPhone" placeholder="Phone number (optional)" />
+          </div>
+          <div class="checkout-box">
+            <div><span>Subtotal</span><strong id="subtotalText">Rs. 0</strong></div>
+            <div><span>Discount</span><div class="inline-discount"><input id="discountInput" type="number" min="0" value="0" /><select id="discountType"><option value="fixed">Rs.</option><option value="percent">%</option></select></div></div>
+            <div class="grand-total"><span>Total</span><strong id="totalText">Rs. 0</strong></div>
+            <div class="payment-grid">
+              <label>Payment<select id="paymentMethod"><option>Cash</option><option>Card</option><option>Bank Transfer</option></select></label>
+              <label id="cashReceivedWrap">Cash Received<input id="cashReceived" type="number" min="0" step="10" placeholder="0"></label>
+            </div>
+            <div class="change-box"><span>Change</span><strong id="changeText">Rs. 0</strong></div>
+            <label class="auto-print-toggle"><input id="autoPrint" type="checkbox" checked> Save sale and open print immediately</label>
+            <button class="checkout-btn" id="completeSale">F9 · Complete & Print</button>
+            <small class="shortcut-help">Shortcuts: F2 focus scanner · F9 complete sale · Esc clear search</small>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view" id="productsView">
+      <div class="section-actions">
+        <div class="search-wrap wide"><input id="productSearch" placeholder="Search products..." /><span>⌕</span></div>
+        <div class="action-row">
+          <button class="ghost-btn" id="importCsvBtn">Import CSV</button>
+          <input type="file" id="csvFileInput" accept=".csv" hidden />
+          <button class="ghost-btn" id="exportProductsBtn">Export CSV</button>
+          <button class="ghost-btn" id="printSelectedLabelsBtn">Print Selected Labels</button><button class="primary-btn" id="addProductBtn">+ Add Product</button>
+        </div>
+      </div>
+      <div class="panel table-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th><input type="checkbox" id="selectAllProducts" aria-label="Select all"></th><th>Product</th><th>SKU</th><th>Category</th><th>Variant</th><th>Price</th><th>Stock (click to edit)</th><th>Status</th><th></th></tr></thead>
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="barcodesView">
+      <div class="barcode-hero panel">
+        <div><p class="eyebrow">PRODUCT TAGGING</p><h3>Barcode Generator & Label Printing</h3><p>Generate unique EAN-style codes, preview product tags and print 40mm × 25mm barcode labels.</p></div>
+        <button class="primary-btn" id="openQuickBarcodeProduct">+ Add Product With Barcode</button>
+      </div>
+      <div class="barcode-layout">
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">LABEL BUILDER</p><h3>Choose Product</h3></div></div>
+          <div class="form-grid">
+            <label>Product<select id="labelProductSelect"></select></label>
+            <label>Labels Quantity<input id="labelQuantity" type="number" min="1" max="100" value="1"></label>
+            <label>Barcode<input id="labelBarcode" readonly></label>
+            <label>Label Size<select id="labelSize"><option value="40x25">40 × 25 mm</option><option value="50x30">50 × 30 mm</option><option value="60x40">60 × 40 mm</option></select></label>
+            <div class="label-actions"><button class="ghost-btn" id="regenerateBarcodeBtn" type="button">Generate New Code</button><button class="primary-btn" id="printBarcodeLabelsBtn" type="button">Print Labels</button></div>
+          </div>
+        </article>
+        <article class="panel barcode-preview-panel">
+          <div class="panel-head"><div><p class="eyebrow">LIVE PREVIEW</p><h3>Product Tag</h3></div></div>
+          <div id="singleLabelPreview" class="product-label-preview"></div>
+        </article>
+      </div>
+      <article class="panel barcode-list-panel">
+        <div class="panel-head"><div><p class="eyebrow">BARCODE DIRECTORY</p><h3>All Product Codes</h3></div><input id="barcodeListSearch" placeholder="Search product or barcode"></div>
+        <div id="barcodeDirectory" class="barcode-directory"></div>
+      </article>
+    </section>
+
+    <section class="view" id="salesView">
+      <div class="section-actions">
+        <div class="search-wrap wide"><input id="salesSearch" placeholder="Search receipt, customer, payment..." /><span>⌕</span></div>
+        <button class="ghost-btn" id="exportSalesBtn">Export Sales CSV</button>
+      </div>
+      <div class="panel table-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Items</th><th>Payment</th><th>Total</th><th></th></tr></thead>
+            <tbody id="salesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="reportsView">
+      <div class="stats-grid">
+        <article class="stat-card"><span>Gross Sales</span><strong id="reportGross">Rs. 0</strong><small>Before discounts</small></article>
+        <article class="stat-card"><span>Discounts</span><strong id="reportDiscounts">Rs. 0</strong><small>Total given</small></article>
+        <article class="stat-card"><span>Net Revenue</span><strong id="reportNet">Rs. 0</strong><small>After discounts</small></article>
+        <article class="stat-card"><span>Items Sold</span><strong id="reportItems">0</strong><small>All-time quantity</small></article>
+      </div>
+      <div class="dashboard-grid">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">BEST SELLERS</p><h3>Top Products</h3></div></div><div id="topProducts" class="ranking-list"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">PAYMENTS</p><h3>Payment Mix</h3></div></div><div id="paymentMix" class="payment-mix"></div></article>
+      </div>
+    </section>
+
+    <section class="view" id="settingsView">
+      <div class="settings-grid">
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">STORE DETAILS</p><h3>Receipt Settings</h3></div></div>
+          <div class="form-grid">
+            <label>Store Name<input id="settingStoreName" /></label>
+            <label>Phone<input id="settingPhone" /></label>
+            <label>Address<textarea id="settingAddress"></textarea></label>
+            <label>Receipt Footer<textarea id="settingFooter"></textarea></label>
+            <label>Printer Format<select id="settingPrinter"><option value="80mm">80mm Thermal</option><option value="58mm">58mm Thermal</option><option value="a4">A4 Invoice</option></select></label>
+            <button class="primary-btn" id="saveSettings">Save Settings</button>
+          </div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">DATA CONTROL</p><h3>Backup & Restore</h3></div></div>
+          <div class="data-actions">
+            <button class="ghost-btn" id="downloadBackup">Download Full Backup</button>
+            <button class="ghost-btn" id="restoreBackupBtn">Restore Backup</button>
+            <input type="file" id="restoreBackupInput" accept="application/json" hidden />
+            <button class="danger-btn" id="resetAllData">Reset All Data</button>
+          </div>
+          <p class="muted">Products, sales and stock are synchronized with Firebase Firestore in real time.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="productModal">
+    <div class="modal-card">
+      <div class="modal-head"><div><p class="eyebrow">INVENTORY</p><h3 id="productModalTitle">Add Product</h3></div><button class="icon-btn" data-close-modal>×</button></div>
+      <form id="productForm" class="form-grid two-col">
+        <input type="hidden" id="productId" />
+        <label>Product Name<input id="productName" required /></label>
+        <label>SKU / Barcode<div class="field-with-button"><input id="productSku" required /><button type="button" id="generateProductBarcode" class="mini-action">Generate</button></div></label>
+        <label>Category<select id="productCategory"><option>T-Shirt</option><option>Hoodie</option><option>Pants</option><option>Accessories</option></select></label>
+        <label>Size<input id="productSize" placeholder="S / M / L / XL" /></label>
+        <label>Color<input id="productColor" placeholder="Black / White" /></label>
+        <label>Selling Price<input id="productPrice" type="number" min="0" required /></label>
+        <label>Buying Price<input id="productCost" type="number" min="0" value="0" /></label>
+        <label>Stock Quantity<input id="productStock" type="number" min="0" required /></label>
+        <label class="full-span">Image URL (optional)<input id="productImage" placeholder="https://..." /></label>
+        <label class="full-span">Description<textarea id="productDescription"></textarea></label>
+        <div class="modal-actions full-span"><button type="button" class="ghost-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Save Product</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="receiptModal">
+    <div class="modal-card receipt-modal-card">
+      <div class="modal-head"><div><p class="eyebrow">SALE COMPLETE</p><h3>Receipt Ready</h3></div><button class="icon-btn" data-close-receipt>×</button></div>
+      <div id="receiptPreview" class="receipt-preview"></div>
+      <div class="modal-actions"><button class="ghost-btn" data-close-receipt>Close</button><button class="primary-btn" id="printReceiptBtn">Print Receipt</button></div>
+    </div>
+  </div>
+
+  <div class="modal" id="cashModal">
+    <div class="modal-card cash-modal-card">
+      <div class="modal-head"><div><p class="eyebrow">CASHIER</p><h3>Cash Payment</h3></div><button class="icon-btn" id="closeCashModal">×</button></div>
+      <div class="cash-due"><span>Amount Due</span><strong id="cashDueText">Rs. 0</strong></div>
+      <label class="cash-input-label">Cash Received<input id="cashModalReceived" type="number" min="0" step="10" inputmode="decimal" placeholder="Enter amount received"></label>
+      <div class="quick-cash" id="quickCashButtons"></div>
+      <div class="cash-change"><span>Customer Change</span><strong id="cashModalChange">Rs. 0</strong></div>
+      <button class="checkout-btn" id="confirmCashSale">Enter · Save & Print</button>
+    </div>
+  </div>
+
+  <div class="modal" id="scannerModal">
+    <div class="modal-card scanner-card">
+      <div class="modal-head"><div><p class="eyebrow">CAMERA SCANNER</p><h3>Scan Product Barcode</h3></div><button class="icon-btn" id="closeScanner">×</button></div>
+      <div id="cameraReader"></div>
+      <p class="scanner-help">Allow camera permission and hold the barcode inside the frame.</p>
+    </div>
+  </div>
+  <div id="barcodePrintArea" class="barcode-print-area"></div>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script type="module" src="kb-pos.js?v=6"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head><title>Checkout | KB Label</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest?v=20260719">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="KB Label premium streetwear clothing store. Shop exclusive Deathline oversized tees in Sri Lanka.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="store-style.css?v=tracking-memory-1?v=35">
+<link rel="stylesheet" href="cinematic.css?v=40">
+</head><body class="inner-page">
+<div class="kb-order-loader" id="kbOrderLoader" aria-live="assertive" aria-hidden="true">
+  <div class="kb-order-loader-card" role="status">
+    <div class="kb-order-mark">KB</div>
+    <p>KB LABEL Clothing</p>
+    <h2 id="kbOrderLoaderTitle">Securing Your Order</h2>
+    <div class="kb-order-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <small id="kbOrderLoaderText">Preparing your premium streetwear order...</small>
+  </div>
+</div>
+<div class="announcement">FREE ISLANDWIDE DELIVERY FOR ORDERS OVER RS. 10,000</div>
+<header class="site-header">
+  <a class="brand" href="store.html">
+    <img decoding="async" src="store-logo.webp" alt="KB Label logo">
+    <span>KB LABEL</span>
+  </a>
+  <button class="menu-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+  <nav class="nav">
+    <a href="store.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="shop.html?filter=new">New Arrivals</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" data-open-search aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <a class="icon-btn" href="wishlist.html" aria-label="Wishlist"><i class="fa-regular fa-heart"></i><span class="count wishlist-count">0</span></a>
+    <a class="icon-btn" href="cart.html" aria-label="Cart"><i class="fa-solid fa-bag-shopping"></i><span class="count cart-count">0</span></a>
+  </div>
+</header>
+<div class="search-panel" id="searchPanel">
+  <button class="close-search" aria-label="Close">&times;</button>
+  <div>
+    <p>SEARCH KB LABEL</p>
+    <input id="globalSearch" type="search" placeholder="Search products...">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+</div>
+
+<main class="standard-page">
+<div class="page-title"><span class="eyebrow dark">SECURE CHECKOUT</span><h1>Complete Your Order</h1></div>
+<form class="checkout-layout" id="checkoutForm">
+  <div class="checkout-form">
+    <section class="form-card"><h2>Customer Details</h2>
+      <div class="form-grid">
+        <label>Full Name<input name="name" required></label>
+        <label>Phone Number<input name="phone" required pattern="[0-9+ ]{9,15}"></label>
+        <label class="span-2">Address<textarea name="address" required></textarea></label>
+        <label>District<select name="district" id="district" required><option value="">Select District</option><option value="Colombo">Colombo</option><option value="Other">Other Area</option></select></label>
+        <label>Email Address<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"><small style="display:block;margin-top:7px;color:#777">Order confirmation and tracking link will be sent here.</small></label>
+      </div>
+    </section>
+    <section class="form-card"><h2>Payment Method</h2>
+      <label class="payment-option"><input type="radio" name="payment" value="cod" checked><span><b>Cash on Delivery</b><small>Pay when your order arrives.</small></span></label>
+      <label class="payment-option"><input type="radio" name="payment" value="bank"><span><b>Bank Transfer</b><small>Transfer and upload your payment slip.</small></span></label>
+      <label class="payment-option payment-option-card"><input type="radio" name="payment" value="card"><span><b>Card Payment</b><small>Secure online payment with Visa or Mastercard.</small></span><span class="card-mini-logos" aria-hidden="true"><i class="fa-brands fa-cc-visa"></i><i class="fa-brands fa-cc-mastercard"></i></span></label>
+      <div class="card-payment-panel" id="cardPaymentPanel" aria-hidden="true">
+        <div class="card-visual">
+          <div class="card-visual-top"><span>KB LABEL</span><i class="fa-solid fa-wifi"></i></div>
+          <div class="card-chip"><span></span><span></span><span></span></div>
+          <div class="card-number-preview">•••• &nbsp;•••• &nbsp;•••• &nbsp;4242</div>
+          <div class="card-visual-bottom"><small>SECURE CHECKOUT</small><div><i class="fa-brands fa-cc-visa"></i><i class="fa-brands fa-cc-mastercard"></i></div></div>
+        </div>
+        <div class="card-payment-copy">
+          <span class="secure-pill"><i class="fa-solid fa-lock"></i> Encrypted payment</span>
+          <h3>Pay securely by card</h3>
+          <p>Your card details are entered only inside the payment gateway. KB LABEL never stores card numbers or CVV details.</p>
+          <div class="card-security-row"><span><i class="fa-solid fa-shield-halved"></i> 3D Secure</span><span><i class="fa-solid fa-bolt"></i> Instant confirmation</span></div>
+          <p class="card-config-note" id="cardConfigNote">Card gateway setup is required before live payments can be accepted.</p>
+        </div>
+      </div>
+      <div class="bank-details" id="bankDetails">
+        <h3>Commercial Bank</h3>
+        <p><span>Account Name</span><strong>Pasindu Bandara Munasinha</strong></p>
+        <p><span>Account Number</span><strong>8021602289</strong></p>
+        <label class="upload-box">Upload Bank Slip<input type="file" id="bankSlip" accept="image/*,.pdf"><span id="fileName">Choose image or PDF</span></label>
+      </div>
+    </section>
+  </div>
+  <aside class="summary-card checkout-summary" id="checkoutSummary"></aside>
+</form>
+</main>
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">KB LABEL</div>
+      <p>Premium streetwear for those who wear their identity.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a href="shop.html">All Products</a>
+      <a href="shop.html?filter=new">New Arrivals</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="cart.html">Cart</a>
+    </div>
+    <div>
+      <h4>Customer Care</h4>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="my-orders.html">Track Order</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="tel:+94763579015">076 357 9015</a>
+      <a href="https://wa.me/94763579015" target="_blank">WhatsApp</a>
+<a href="https://instagram.com/kb_label_clothing" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+
+      <a href="https://www.facebook.com/share/1Bcg42aboL/?mibextid=wwXIfr" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+      <a href="https://www.tiktok.com/@kb.label.clothing?_r=1&_t=ZS-9896eq2Lj1h" target="_blank"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 KB Label. All rights reserved.</div>
+</footer>
+<a class="whatsapp-float" href="https://wa.me/94763579015?text=Hi%20KB%20Label%2C%20I%20want%20to%20place%20an%20order." target="_blank" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    emailjs.init({
+        publicKey: "2PMMooxKItban69yZ"
+    });
+</script>
+
+
+<script src="https://www.payhere.lk/lib/payhere.js"></script>
+<script src="card-payment.js?v=31"></script>
+<script type="module" src="store-firebase.js?v=15"></script>
+<script src="app.js?v=52"></script>
+<script src="unified.js?v=9"></script>
+</body></html>
